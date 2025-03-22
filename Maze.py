@@ -53,7 +53,7 @@ def dynamic_astar_visualization(maze, start, end):
 
     heapq.heappush(open_list, (0 + heuristic(start, end), 0, start_node)) #push f, g, start node to open_list
 
-    plt.figure(figsize=(15, 15))
+    plt.figure(figsize=(10, 10))
 
     path = None
     while open_list:
@@ -72,18 +72,21 @@ def dynamic_astar_visualization(maze, start, end):
                     came_from[neighbor] = current
 
         plt.clf()
+        open_nodes = [node for _, _, node in open_list]
+        for node in open_nodes:
+            plt.scatter(node[1], node[0], color="pink", s=5)
 
         plt.imshow(maze, cmap="Blues", origin="upper")
 
         for node in closed_list:
-            plt.scatter(node[1], node[0], color="red", s=1) #set closed node red
+            plt.scatter(node[1], node[0], color="red", s=5) #set closed node red
 
         if current != start_node:
-            plt.scatter(y, x, color="green", s=1) #set current node green
+            plt.scatter(y, x, color="green", s=5) #set current node green
 
         plt.title(f"A* Algorithm: Current Node: {current}")
         plt.draw()
-        plt.pause(0.01)
+        plt.pause(0.05)
 
         if current == end_node:
             path = reconstruct_path(came_from, current)
@@ -91,17 +94,17 @@ def dynamic_astar_visualization(maze, start, end):
             plt.imshow(maze, cmap="Blues", origin="upper")
             open_nodes = [node for _, _, node in open_list]
             for node in open_nodes:
-                plt.scatter(node[1], node[0], color="yellow", s=1)
+                plt.scatter(node[1], node[0], color="pink", s=5)
             for node in closed_list:
-                plt.scatter(node[1], node[0], color="red", s=1)
+                plt.scatter(node[1], node[0], color="red", s=5)
             if path:
                 for p in path:
-                    plt.scatter(p[1], p[0], color="purple", s=1)
-            plt.scatter(start[1], start[0], color="green", s=1)
-            plt.scatter(end[1], end[0], color="blue", s=1)
+                    plt.scatter(p[1], p[0], color="purple", s=5)
+            plt.scatter(start[1], start[0], color="green", s=5)
+            plt.scatter(end[1], end[0], color="blue", s=5)
             plt.title("A* Algorithm: Path Found!")
             plt.draw()
-            plt.pause(0.01)
+            plt.pause(0.05)
             break
 
     if not path:
@@ -109,5 +112,5 @@ def dynamic_astar_visualization(maze, start, end):
     plt.show()
 
 
-maze, start, end = generate_maze(49, 49)
+maze, start, end = generate_maze(21, 21)
 dynamic_astar_visualization(maze, start, end)
